@@ -1,0 +1,25 @@
+namespace GlassWall
+{
+    [default_interface]
+    runtimeclass WallpaperItem : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        WallpaperItem();
+        String Id{ get; };
+        String Name{ get; };
+        String Path{ get; };
+        String Details{ get; };
+        Microsoft.UI.Xaml.Visibility ActiveVisibility{ get; };
+        Microsoft.UI.Xaml.Visibility SelectedVisibility{ get; };
+        Microsoft.UI.Xaml.Visibility PlaceholderVisibility{ get; };
+        String PreviewStatus{ get; };
+        Double CardWidth{ get; };
+        Double PreviewHeight{ get; };
+        Microsoft.UI.Xaml.Media.ImageSource Thumbnail;
+    }
+
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+    }
+}

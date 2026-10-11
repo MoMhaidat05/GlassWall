@@ -1,0 +1,253 @@
+<Window
+    x:Class="GlassWall.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GlassWall"
+    Title="GlassWall">
+    <Grid x:Name="Root" RequestedTheme="Dark" Background="{ThemeResource CanvasBrush}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Default">
+                        <SolidColorBrush x:Key="RailBrush" Color="#101217"/>
+                        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#101217"/>
+                        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#101217"/>
+                        <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#D8D9CF"/>
+                        <SolidColorBrush x:Key="SurfaceBrush" Color="#1B1D23"/>
+                        <SolidColorBrush x:Key="EdgeBrush" Color="#30333B"/>
+                        <SolidColorBrush x:Key="InkBrush" Color="#F0F0ED"/>
+                        <SolidColorBrush x:Key="MutedBrush" Color="#A3A6AF"/>
+                        <SolidColorBrush x:Key="SelectionBrush" Color="#D8D9CF"/>
+                        <SolidColorBrush x:Key="GridViewItemSelectedBorderBrush" Color="#D8D9CF"/>
+                        <SolidColorBrush x:Key="GridViewItemSelectedPointerOverBorderBrush" Color="#D8D9CF"/>
+                        <SolidColorBrush x:Key="GridViewItemSelectedPressedBorderBrush" Color="#D8D9CF"/>
+                        <SolidColorBrush x:Key="ActiveBrush" Color="#BBD9C8"/>
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="HighContrast">
+                        <SolidColorBrush x:Key="RailBrush" Color="{ThemeResource SystemColorWindowColor}"/>
+                        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{ThemeResource SystemColorWindowColor}"/>
+                        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}"/>
+                        <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+                        <SolidColorBrush x:Key="SurfaceBrush" Color="{ThemeResource SystemColorWindowColor}"/>
+                        <SolidColorBrush x:Key="EdgeBrush" Color="{ThemeResource SystemColorWindowTextColor}"/>
+                        <SolidColorBrush x:Key="InkBrush" Color="{ThemeResource SystemColorWindowTextColor}"/>
+                        <SolidColorBrush x:Key="MutedBrush" Color="{ThemeResource SystemColorWindowTextColor}"/>
+                        <SolidColorBrush x:Key="SelectionBrush" Color="{ThemeResource SystemColorHighlightColor}"/>
+                        <SolidColorBrush x:Key="GridViewItemSelectedBorderBrush" Color="{ThemeResource SystemColorHighlightColor}"/>
+                        <SolidColorBrush x:Key="GridViewItemSelectedPointerOverBorderBrush" Color="{ThemeResource SystemColorHighlightColor}"/>
+                        <SolidColorBrush x:Key="GridViewItemSelectedPressedBorderBrush" Color="{ThemeResource SystemColorHighlightColor}"/>
+                        <SolidColorBrush x:Key="ActiveBrush" Color="{ThemeResource SystemColorWindowTextColor}"/>
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+                <Style x:Key="QuietButton" TargetType="Button">
+                    <Setter Property="CornerRadius" Value="10"/>
+                    <Setter Property="Padding" Value="14,10"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <!-- SetTitleBar delegates dragging, system menu and caption controls to Windows. -->
+        <Grid x:Name="AppTitleBar" Height="48" Background="{ThemeResource RailBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="TitleLeftInset" Width="0"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition x:Name="TitleRightInset" Width="138"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="20,0" VerticalAlignment="Center">
+                <Image Source="ms-appx:///Assets/GlassWall.png" Width="16" Height="16"/>
+                <TextBlock x:Name="TitleText" Text="GlassWall" FontWeight="SemiBold" FontSize="13" Foreground="{ThemeResource InkBrush}"/>
+            </StackPanel>
+        </Grid>
+        <NavigationView x:Name="Navigation" Grid.Row="1" Background="{ThemeResource CanvasBrush}"
+                        IsBackButtonVisible="Collapsed" IsSettingsVisible="False" PaneDisplayMode="LeftCompact"
+                        CompactPaneLength="64" OpenPaneLength="196" IsPaneOpen="False"
+                        IsPaneToggleButtonVisible="False" IsTitleBarAutoPaddingEnabled="False"
+                        SelectionChanged="Navigation_SelectionChanged">
+            <NavigationView.Resources>
+                <!-- Flatten the stock content frame; retain the existing content insets. -->
+                <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
+                <Thickness x:Key="NavigationViewBorderThickness">0</Thickness>
+                <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
+                <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
+            </NavigationView.Resources>
+            <NavigationView.MenuItems>
+                <NavigationViewItem x:Name="LibraryNavigation" Content="Library" Icon="Pictures"
+                                    ToolTipService.ToolTip="Wallpaper library" AutomationProperties.Name="Library"/>
+            </NavigationView.MenuItems>
+            <NavigationView.PaneFooter>
+                <StackPanel>
+                <Button Margin="8,0,8,4" MinWidth="44" Height="44" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" CornerRadius="10" Background="Transparent"
+                        BorderThickness="0" ToolTipService.ToolTip="Startup setting" AutomationProperties.Name="Startup setting">
+                    <FontIcon Glyph="&#xE713;" FontSize="16"/>
+                    <Button.Flyout>
+                        <Flyout Opened="StartupSettings_Opened">
+                            <ToggleSwitch x:Name="StartupToggle" Toggled="StartWithWindows_Toggled"
+                                          Header="Start GlassWall with Windows"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button x:Name="SidebarToggle" Click="SidebarToggle_Click" Margin="8,0,8,16"
+                        MinWidth="44" Height="44" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                        CornerRadius="10" Background="Transparent" BorderThickness="0"
+                        ToolTipService.ToolTip="Expand navigation" AutomationProperties.Name="Expand navigation">
+                    <StackPanel Orientation="Horizontal" Spacing="14">
+                        <FontIcon Glyph="&#xE700;" FontSize="16"/>
+                        <TextBlock x:Name="SidebarToggleLabel" Text="Collapse" Visibility="Collapsed"/>
+                    </StackPanel>
+                </Button>
+                </StackPanel>
+            </NavigationView.PaneFooter>
+            <Grid Margin="28,24,28,20" RowSpacing="18" Background="{ThemeResource CanvasBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Library" FontSize="32" FontWeight="SemiBold" Foreground="{ThemeResource InkBrush}"/>
+                        <TextBlock x:Name="LibraryCount" Text="Local videos. A quieter desktop." Foreground="{ThemeResource MutedBrush}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                        <Button x:Name="RefreshButton" Style="{StaticResource QuietButton}" Click="Refresh_Click"
+                                ToolTipService.ToolTip="Refresh library and engine state" AutomationProperties.Name="Refresh library and engine state">
+                            <SymbolIcon Symbol="Refresh"/>
+                        </Button>
+                        <Button x:Name="ImportButton" Style="{StaticResource QuietButton}" Click="Import_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="8"><SymbolIcon Symbol="Add"/><TextBlock Text="Import Wallpaper"/></StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <InfoBar x:Name="Notice" Grid.Row="1" IsOpen="False" IsClosable="True"/>
+                <Grid x:Name="LibraryLayout" Grid.Row="2" ColumnSpacing="24" RowSpacing="18" SizeChanged="LibraryLayout_SizeChanged">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition x:Name="DetailColumn" Width="296"/></Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition x:Name="DetailRow" Height="0"/></Grid.RowDefinitions>
+                    <Grid>
+                        <!-- The grid owns its viewport, preserving card virtualization. -->
+                        <GridView x:Name="Wallpapers" SelectionMode="Single" IsItemClickEnabled="False"
+                                  SizeChanged="Wallpapers_SizeChanged" SelectionChanged="Wallpapers_SelectionChanged"
+                                  ContainerContentChanging="Wallpapers_ContainerContentChanging" AutomationProperties.Name="Local wallpaper library">
+                            <GridView.ItemsPanel><ItemsPanelTemplate><ItemsWrapGrid Orientation="Horizontal"/></ItemsPanelTemplate></GridView.ItemsPanel>
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="Margin" Value="0,0,16,20"/>
+                                    <Setter Property="Padding" Value="4"/>
+                                    <Setter Property="CornerRadius" Value="16"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </GridView.ItemContainerStyle>
+                            <GridView.ItemTemplate>
+                                <!-- Typed bindings generate C++ accessors, including updates on recycling. -->
+                                <DataTemplate x:DataType="local:WallpaperItem">
+                                    <StackPanel Width="{x:Bind CardWidth, Mode=OneWay}" Spacing="12" ToolTipService.ToolTip="{x:Bind Path, Mode=OneWay}">
+                                        <Grid Height="{x:Bind PreviewHeight, Mode=OneWay}" CornerRadius="12" Background="{ThemeResource SurfaceBrush}">
+                                            <TextBlock Text="{x:Bind PreviewStatus, Mode=OneWay}" Visibility="{x:Bind PlaceholderVisibility, Mode=OneWay}"
+                                                       Margin="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center"
+                                                       FontSize="12" Foreground="{ThemeResource MutedBrush}" MaxLines="3" TextTrimming="CharacterEllipsis"/>
+                                            <Rectangle RadiusX="12" RadiusY="12" AutomationProperties.AccessibilityView="Raw">
+                                                <Rectangle.Fill><ImageBrush ImageSource="{x:Bind Thumbnail, Mode=OneWay}" Stretch="UniformToFill"/></Rectangle.Fill>
+                                            </Rectangle>
+                                            <Border Background="{ThemeResource RailBrush}" BorderBrush="{ThemeResource EdgeBrush}" BorderThickness="1"
+                                                    CornerRadius="8" Padding="9,5" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                    Visibility="{x:Bind ActiveVisibility, Mode=OneWay}">
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource ActiveBrush}"/>
+                                                    <TextBlock Text="Active" Foreground="{ThemeResource ActiveBrush}" FontSize="11" FontWeight="SemiBold"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <Button Click="WallpaperMenu_Click" Loaded="WallpaperMenu_Loaded" Tag="{x:Bind Id, Mode=OneWay}" IsTabStop="True"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"
+                                                    Width="36" Height="36" Padding="0" CornerRadius="8"
+                                                    Background="{ThemeResource RailBrush}" BorderBrush="{ThemeResource EdgeBrush}"
+                                                    ToolTipService.ToolTip="Wallpaper actions" AutomationProperties.Name="Wallpaper actions">
+                                                <SymbolIcon Symbol="More"/>
+                                            </Button>
+                                        </Grid>
+                                        <Grid Margin="2,0,2,6" ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <StackPanel Spacing="5">
+                                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontSize="15" FontWeight="SemiBold" Foreground="{ThemeResource InkBrush}" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{x:Bind Details, Mode=OneWay}" FontSize="12" Foreground="{ThemeResource MutedBrush}" TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="Selected" FontSize="11" VerticalAlignment="Top" Margin="0,3,0,0"
+                                                       Foreground="{ThemeResource SelectionBrush}" Visibility="{x:Bind SelectedVisibility, Mode=OneWay}"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                        <StackPanel x:Name="EmptyLibrary" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" MaxWidth="290">
+                            <SymbolIcon Symbol="Pictures" Foreground="{ThemeResource MutedBrush}"/>
+                            <TextBlock Text="Make this desktop yours" FontSize="21" Foreground="{ThemeResource InkBrush}" TextAlignment="Center"/>
+                            <TextBlock Text="Import a local H.264 MP4, then select it and set your wallpaper." TextWrapping="Wrap" TextAlignment="Center" Foreground="{ThemeResource MutedBrush}"/>
+                        </StackPanel>
+                    </Grid>
+                    <Border x:Name="DetailsPane" Grid.Column="1" Background="{ThemeResource SurfaceBrush}" CornerRadius="16"
+                            BorderBrush="{ThemeResource EdgeBrush}" BorderThickness="1" Padding="20" VerticalAlignment="Top">
+                        <ScrollViewer x:Name="DetailScroll" MaxHeight="560" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Spacing="18">
+                                <TextBlock Text="SELECTED WALLPAPER" FontSize="10" CharacterSpacing="120" FontWeight="SemiBold" Foreground="{ThemeResource MutedBrush}"/>
+                                <Grid x:Name="PosterHost" Height="143" CornerRadius="12" Background="{ThemeResource CanvasBrush}">
+                                    <TextBlock x:Name="PosterStatus" Text="Select a wallpaper" Margin="16" TextWrapping="Wrap" TextAlignment="Center"
+                                               VerticalAlignment="Center" FontSize="12" Foreground="{ThemeResource MutedBrush}"/>
+                                    <Rectangle RadiusX="12" RadiusY="12" AutomationProperties.AccessibilityView="Raw">
+                                        <Rectangle.Fill><ImageBrush x:Name="PosterImage" Stretch="UniformToFill"/></Rectangle.Fill>
+                                    </Rectangle>
+                                </Grid>
+                                <StackPanel Spacing="8">
+                                    <TextBlock x:Name="SelectedName" Text="Select a wallpaper" FontSize="22" FontWeight="SemiBold" Foreground="{ThemeResource InkBrush}" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="SelectedDetails" Text="Still previews. Effortless looping." Foreground="{ThemeResource MutedBrush}" FontSize="12" TextWrapping="Wrap"/>
+                                    <TextBlock x:Name="SelectedActive" FontSize="12" FontWeight="SemiBold" Foreground="{ThemeResource ActiveBrush}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <Grid Height="52">
+                                    <!-- The only custom optical control; text and input remain a native Button. -->
+                                    <Grid x:Name="GlassHost" IsHitTestVisible="False"/>
+                                    <Button x:Name="ApplyButton" Content="Set as Wallpaper" Click="Apply_Click" IsEnabled="False"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" CornerRadius="26"
+                                            Background="Transparent" BorderBrush="Transparent" FontWeight="SemiBold">
+                                        <Button.Resources>
+                                            <ResourceDictionary>
+                                                <ResourceDictionary.ThemeDictionaries>
+                                                    <ResourceDictionary x:Key="Default">
+                                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent"/>
+                                                    </ResourceDictionary>
+                                                    <ResourceDictionary x:Key="HighContrast">
+                                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SystemColorHighlightColor}"/>
+                                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SystemColorHighlightColor}"/>
+                                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+                                                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+                                                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{ThemeResource SystemColorWindowTextColor}"/>
+                                                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{ThemeResource SystemColorWindowTextColor}"/>
+                                                    </ResourceDictionary>
+                                                </ResourceDictionary.ThemeDictionaries>
+                                            </ResourceDictionary>
+                                        </Button.Resources>
+                                    </Button>
+                                </Grid>
+                                <StackPanel Spacing="7">
+                                    <TextBlock Text="SOURCE" FontSize="10" CharacterSpacing="100" Foreground="{ThemeResource MutedBrush}"/>
+                                    <TextBlock x:Name="SelectedPath" FontSize="12" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis"
+                                               IsTextSelectionEnabled="True" Foreground="{ThemeResource MutedBrush}"/>
+                                    <TextBlock x:Name="PreviewDiagnostic" FontSize="11" TextWrapping="Wrap" Foreground="{ThemeResource MutedBrush}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="3" ColumnSpacing="12" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource EdgeBrush}" Padding="0,14,0,0">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <StackPanel Spacing="5">
+                        <TextBlock x:Name="PlaybackStatus" Text="Connecting to your wallpaper…" FontSize="12" Foreground="{ThemeResource InkBrush}"
+                                   TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+                        <TextBlock Text="Wallpaper and tray keep running when this window closes." FontSize="11" Foreground="{ThemeResource MutedBrush}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <Button x:Name="PauseButton" Grid.Column="1" Content="Pause" Style="{StaticResource QuietButton}" Click="Pause_Click" IsEnabled="False" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </NavigationView>
+    </Grid>
+</Window>

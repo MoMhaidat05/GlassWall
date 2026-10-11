@@ -1,0 +1,7 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <GlassWallRepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))</GlassWallRepositoryRoot>
+    <GlassWallPackagesDir>$(MSBuildThisFileDirectory)packages</GlassWallPackagesDir>
+    <CppWinRTEnableLegacyCoroutines>false</CppWinRTEnableLegacyCoroutines>
+  </PropertyGroup>
+</Project>

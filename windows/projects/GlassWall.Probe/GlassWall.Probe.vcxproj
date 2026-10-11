@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{208DC05D-7B34-457B-A371-8606F257FC8B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>GlassWall</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Release'">false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization Condition="'$(Configuration)'=='Debug'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)'=='Release'">MaxSpeed</Optimization>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link><SubSystem>Console</SubSystem></Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\diagnostics\main.cpp"/>
+    <ClCompile Include="..\..\..\src\ipc\Client.cpp"/>
+    <ClCompile Include="..\..\..\src\application\LibraryService.cpp"/>
+    <ClCompile Include="..\..\..\src\library\Library.cpp"/>
+    <ClCompile Include="..\..\..\src\media\mf\MediaPath.cpp"/>
+    <ClCompile Include="..\..\..\src\platform\win32\Support.cpp"/>
+  </ItemGroup>
+  <Import Project="..\..\props\Native.props"/>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\core\Protocol.h"/>
+    <ClInclude Include="..\..\..\src\core\PlaybackProtocol.h"/>
+    <ClInclude Include="..\..\..\src\core\PausePolicy.h"/>
+    <ClInclude Include="..\..\..\src\diagnostics\PauseTests.h"/>
+    <ClInclude Include="..\..\..\src\diagnostics\LibraryTests.h"/>
+    <ClInclude Include="..\..\..\src\application\LibraryService.h"/>
+    <ClInclude Include="..\..\..\src\library\Library.h"/>
+    <ClInclude Include="..\..\..\src\core\LibraryProtocol.h"/>
+    <ClInclude Include="..\..\..\src\media\mf\MediaPath.h"/>
+    <ClInclude Include="..\..\..\src\ipc\Client.h"/>
+    <ClInclude Include="..\..\..\src\ipc\PipeIo.h"/>
+    <ClInclude Include="..\..\..\src\platform\win32\Support.h"/>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+</Project>

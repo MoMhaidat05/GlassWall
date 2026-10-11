@@ -1,0 +1,9 @@
+{
+  "architecture": "x64",
+  "windowsSdk": "10.0.26100.0",
+  "platformToolset": "v145",
+  "testedVisualStudioMajorVersion": "18",
+  "language": "C++20",
+  "managerPackages": "projects/GlassWall.Manager/packages.config",
+  "runtimePolicy": "Unpackaged, self-contained WinUI; app-local Release CRT. No WebView2 control or browser runtime is used. The template WebView2 build package remains a WinUI dependency."
+}

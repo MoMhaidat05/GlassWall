@@ -1,0 +1,30 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <GlassWallRepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\'))</GlassWallRepositoryRoot>
+    <OutDir>$(GlassWallRepositoryRoot)artifacts\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(GlassWallRepositoryRoot)artifacts\obj\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ResourceCompile><AdditionalIncludeDirectories>$(GlassWallRepositoryRoot)windows\assets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories></ResourceCompile>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32_LEAN_AND_MEAN;NOMINMAX;_WIN32_WINNT=0x0A00;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(GlassWallRepositoryRoot)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level4</WarningLevel>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Advapi32.lib;Shell32.lib;Ole32.lib;User32.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles Condition="'$(GlassWallHasCompatibilityManifest)' != 'true'">$(GlassWallRepositoryRoot)windows\manifests\compatibility.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <Target Name="GlassWallCopyIcon" AfterTargets="Build" Condition="Exists('$(GlassWallRepositoryRoot)windows\assets\GlassWall.ico')">
+    <Copy SourceFiles="$(GlassWallRepositoryRoot)windows\assets\GlassWall.ico" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="$(GlassWallRepositoryRoot)windows\assets\GlassWall.png" DestinationFiles="$(OutDir)Assets\GlassWall.png" SkipUnchangedFiles="true" Condition="'$(MSBuildProjectName)' == 'GlassWall'"/>
+  </Target>
+</Project>

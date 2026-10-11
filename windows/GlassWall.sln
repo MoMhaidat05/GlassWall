@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.0.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "GlassWall.Engine", "projects\GlassWall.Engine\GlassWall.Engine.vcxproj", "{B38E8C13-1816-4A27-819D-4AE44B5CC7D1}"
+EndProject
+Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "GlassWall.Probe", "projects\GlassWall.Probe\GlassWall.Probe.vcxproj", "{208DC05D-7B34-457B-A371-8606F257FC8B}"
+EndProject
+Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "GlassWall.Manager", "projects\GlassWall.Manager\GlassWall.vcxproj", "{41f0a566-193f-47f0-98bc-d05d3915e1bb}"
+EndProject
+Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "GlassWall.Setup", "projects\GlassWall.Setup\GlassWall.Setup.vcxproj", "{B573F43C-E6C0-4A90-A690-461A26B57BD0}"
+EndProject
+Global
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|x64 = Debug|x64
+        Release|x64 = Release|x64
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {B573F43C-E6C0-4A90-A690-461A26B57BD0}.Debug|x64.ActiveCfg = Release|x64
+        {B573F43C-E6C0-4A90-A690-461A26B57BD0}.Release|x64.ActiveCfg = Release|x64
+        {B573F43C-E6C0-4A90-A690-461A26B57BD0}.Release|x64.Build.0 = Release|x64
+        {41f0a566-193f-47f0-98bc-d05d3915e1bb}.Debug|x64.ActiveCfg = Debug|x64
+        {41f0a566-193f-47f0-98bc-d05d3915e1bb}.Debug|x64.Build.0 = Debug|x64
+        {41f0a566-193f-47f0-98bc-d05d3915e1bb}.Release|x64.ActiveCfg = Release|x64
+        {41f0a566-193f-47f0-98bc-d05d3915e1bb}.Release|x64.Build.0 = Release|x64
+        {B38E8C13-1816-4A27-819D-4AE44B5CC7D1}.Debug|x64.ActiveCfg = Debug|x64
+        {B38E8C13-1816-4A27-819D-4AE44B5CC7D1}.Debug|x64.Build.0 = Debug|x64
+        {B38E8C13-1816-4A27-819D-4AE44B5CC7D1}.Release|x64.ActiveCfg = Release|x64
+        {B38E8C13-1816-4A27-819D-4AE44B5CC7D1}.Release|x64.Build.0 = Release|x64
+        {208DC05D-7B34-457B-A371-8606F257FC8B}.Debug|x64.ActiveCfg = Debug|x64
+        {208DC05D-7B34-457B-A371-8606F257FC8B}.Debug|x64.Build.0 = Debug|x64
+        {208DC05D-7B34-457B-A371-8606F257FC8B}.Release|x64.ActiveCfg = Release|x64
+        {208DC05D-7B34-457B-A371-8606F257FC8B}.Release|x64.Build.0 = Release|x64
+    EndGlobalSection
+EndGlobal

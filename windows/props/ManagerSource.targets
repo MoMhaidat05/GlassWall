@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <CppWinRTEnableLegacyCoroutines>false</CppWinRTEnableLegacyCoroutines>
+  </PropertyGroup>
+  <Target Name="GlassWallCopyManagerSource" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <GlassWallManagerSource Include="$(GlassWallRepositoryRoot)src\manager\*.cpp;$(GlassWallRepositoryRoot)src\manager\*.h;$(GlassWallRepositoryRoot)src\manager\*.idl;$(GlassWallRepositoryRoot)src\manager\*.xaml"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(GlassWallManagerSource)"
+          DestinationFolder="$(ProjectDir)" SkipUnchangedFiles="true"/>
+  </Target>
+  <ItemDefinitionGroup>
+    <ClCompile><AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories></ClCompile>
+  </ItemDefinitionGroup>
+</Project>
